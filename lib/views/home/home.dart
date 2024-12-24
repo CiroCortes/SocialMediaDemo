@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_demo/views/auth/login.dart';
+import 'package:social_demo/views/home/search.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +18,20 @@ class _HomePageState extends State<HomePage> {
         title: const Text(
           "Home Page",
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) =>  const SearchPage(),
+                  ),
+              );
+            },
+            icon:  const Icon(
+              Icons.search,
+            ),
+          )
+        ],
       ),
       drawer: Drawer(
         child: ListView(

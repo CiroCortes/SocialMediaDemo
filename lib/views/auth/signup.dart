@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
@@ -77,11 +78,26 @@ class _SignupState extends State<Signup> {
                     print(email);
                     //
                     try {
-                      await FirebaseAuth.instance
+                       UserCredential usercred =  await FirebaseAuth.instance
                           .createUserWithEmailAndPassword(
                         email: email!,
                         password: password!,
                       );
+
+                      if (usercred.user != null){
+                          // add to database all data 
+                          var data = {
+                            'username' : username,
+                            'email' : email,
+                            'created_at': DateTime.now(),
+
+                          };
+                          await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(usercred.user!.uid)
+                                .set(data);
+                      }
+
                       if (mounted) {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
